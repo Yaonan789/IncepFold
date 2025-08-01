@@ -15,4 +15,3 @@ torchaudio==2.2.1
 torchmetrics==1.8.0
 torchvision==0.17.1
 tqdm==4.67.1
-

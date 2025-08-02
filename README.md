@@ -6,9 +6,10 @@ A Multimodal Inception-Based Model for 3D Genome Architecture Prediction in Cott
 
 ### Data
 
-- The DNA sequences can be downloaded from https://zenodo.org/records/16686495.
-- The processed H3K4me3 data is included in this repository.
-- The processed Hi-C data is also included. If you would like to access the raw Hi-C files, please download them from https://zenodo.org/records/16686495.
+- All necessary data used in this study—including DNA sequences, H3K4me3, and both raw and processed Hi-C data—are available at https://zenodo.org/records/16716764.
+- Please place the DNA sequences files in `/data/genome/cotton`.
+- Please place the H3K4me3 files in `/data/genomic_features/cotton`.
+- Please place the Hi-C files in `/data/hic/cotton`.
 
 ### Running
 

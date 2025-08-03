@@ -17,6 +17,8 @@ def main(path, save_path, resolution, window_size, balance=True):
         np.savez(chrom_path, **diags)
         print(f'npz has saved {chrom_path}')
 
+#Do not use balanced matrix
+
 def compress_diag(mat, window):
     # NOTE: dict is probably suboptimal here. We could have a big list double the window_size
     diag_dict = {}
@@ -32,4 +34,5 @@ if __name__ == '__main__':
     resolution = 10000
     window_size = 256
     main(path, save_path, resolution, window_size)
+
     print(f'All sample has processed!!')

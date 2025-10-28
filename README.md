@@ -1,12 +1,16 @@
 # IncepFold
 
-A Multimodal Inception-Based Model for 3D Genome Architecture Prediction in Cotton
+A Generalizable Deep Learning Framework for 3D Genome Prediction Across Diverse Plant Species
+
+**This repository is an old version, but the core code is consistent.
+Once the paper is accepted or we have free time, we will update this repository.**
+
 
 ## Usage
 
 ### Data
 
-- All necessary data used in this study—including DNA sequences, H3K4me3, and both raw and processed Hi-C data—are available at https://zenodo.org/records/16716764.
+- All necessary data used in this study—including DNA sequences, H3K4me3 and both raw and processed Hi-C data—are available at https://zenodo.org/records/16716764.
 - Please place the DNA sequences files in `/data/genome/cotton`.
 - Please place the H3K4me3 files in `/data/genomic_features/cotton`.
 - Please place the Hi-C files in `/data/hic/cotton`.

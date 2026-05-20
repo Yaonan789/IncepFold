@@ -10,10 +10,10 @@ IncepFold: A Deep Learning Framework for 3D Genome Prediction in Diverse Plant S
 
 ### Data
 
-- All necessary data used in this study—including DNA sequences, H3K4me3 and both raw and processed Hi-C data—are available at https://zenodo.org/records/16716764.
-- Please place the DNA sequences files in `/data/genome/cotton`.
-- Please place the H3K4me3 files in `/data/genomic_features/cotton`.
-- Please place the Hi-C files in `/data/hic/cotton`.
+- Please refer to the paper for data acquisition.
+- Please place the DNA sequence files in a directory such as '/data/genome/cotton`.
+- Please place the H3K4me3 files in a directory such as /data/genomic_features/cotton.
+- Please place the Hi-C files in a directory such as /data/hic/cotton.
 
 ### Running
 

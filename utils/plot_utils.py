@@ -15,14 +15,14 @@ class MatrixPlot:
 
     def get_enhanced_colormap(self):
         from matplotlib.colors import LinearSegmentedColormap
-        # High-contrast red-white gradient
+        # 更高对比度的红-白渐变
         colors = [
-            (1, 1, 1),        # White
-            (1, 0.9, 0.9),    # Light pink
-            (0.9, 0.6, 0.6),  # Pink
-            (0.8, 0.3, 0.3),  # Red
-            (0.7, 0.1, 0.1),  # Dark red
-            (0.5, 0, 0)       # Deep red
+            (1, 1, 1),  # 白
+            (1, 0.9, 0.9),  # 浅粉
+            (0.9, 0.6, 0.6),  # 粉红
+            (0.8, 0.3, 0.3),  # 红
+            (0.7, 0.1, 0.1),  # 深红
+            (0.5, 0, 0)  # 暗红
         ]
         return LinearSegmentedColormap.from_list("enhanced_red", colors, N=256)
 
@@ -36,19 +36,19 @@ class MatrixPlot:
 
     def plot(self, vmin=None, vmax=None, contrast_boost=1.5):
         import matplotlib.pyplot as plt
-        fig, ax = plt.subplots(figsize=(8, 7))  # Increase canvas size
+        fig, ax = plt.subplots(figsize=(8, 7))  # 增大画布尺寸
 
-        # Dynamically calculate color range
+        # 动态计算颜色范围
         data = self.image.copy()
         if vmin is None:
-            vmin = np.percentile(data, 5)  # Use 5th percentile instead of min value
+            vmin = np.percentile(data, 5)  # 使用5%分位数代替最小值
         if vmax is None:
-            vmax = np.percentile(data, 95) * contrast_boost  # Use 95th percentile and enhance contrast
+            vmax = np.percentile(data, 95) * contrast_boost  # 使用95%分位数并增强对比度
 
-        # Create high-contrast color map
+        # 创建高对比度颜色映射
         color_map = self.get_enhanced_colormap()
 
-        # Add colorbar
+        # 添加颜色条
         im = ax.imshow(data, cmap=color_map, aspect='equal',
                        vmin=vmin, vmax=vmax, interpolation='nearest')
         fig.colorbar(im, ax=ax, label='Interaction Frequency')

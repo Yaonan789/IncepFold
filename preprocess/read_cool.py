@@ -13,11 +13,9 @@ def main(path, save_path, resolution, window_size, balance=True):
         diags = compress_diag(mat, window_size)
         ucsc_chrom = f'{chrom}_{resolution}_{window_size}.npz'
         chrom_path = f'{save_path}/{ucsc_chrom}'
-        os.makedirs(f'{save_path}/', exist_ok=True) 
+        os.makedirs(f'{save_path}/', exist_ok=True)  # 确保文件夹存在
         np.savez(chrom_path, **diags)
         print(f'npz has saved {chrom_path}')
-
-# Do not use balanced matrix
 
 def compress_diag(mat, window):
     # NOTE: dict is probably suboptimal here. We could have a big list double the window_size
@@ -28,12 +26,11 @@ def compress_diag(mat, window):
     return diag_dict
 
 if __name__ == '__main__':
-
-    path = f'L128.10000.cool'
-    save_path = f'hic'
+    # /home/zhangzeyu/sh/grachip/data_corigami_grachip/L128.10000.cool
+    path = f'/home/user0/dpc_project/Chromatin_Pre/data/hic/cotton/L128.10000.cool'
+    save_path = f'/home/user0/dpc_project/Chromatin_Pre/data/hic/cotton'
     resolution = 10000
     window_size = 256
     main(path, save_path, resolution, window_size)
-
     print(f'All sample has processed!!')
-
+# nohup python read_cool.py > cool_output.log 2>&1 &

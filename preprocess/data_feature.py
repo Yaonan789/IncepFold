@@ -5,42 +5,42 @@ import os
 
 
 class Feature:
-    """Base class for features, defines common interfaces"""
+    """特征基类，定义通用接口"""
 
     def load(self, **kwargs):
-        """Load resource, must be implemented by subclasses"""
+        """加载资源，子类必须实现"""
         raise NotImplementedError('load method not implemented')
 
     def get(self, *args, **kwargs):
-        """Retrieve data, must be implemented by subclasses"""
+        """获取数据，子类必须实现"""
         raise NotImplementedError('get method not implemented')
 
     def __len__(self):
-        """Return the number of resources, must be implemented by subclasses"""
+        """返回资源数量，子类必须实现"""
         raise NotImplementedError('__len__ method not implemented')
 
     def close(self):
-        """Release resource, optional for subclasses"""
+        """释放资源，子类可选实现"""
         pass
 
     def __enter__(self):
-        """Support context manager"""
+        """支持上下文管理器"""
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
-        """Automatically close resource when exiting context"""
+        """退出上下文时自动关闭资源"""
         self.close()
 
 
 class DNAFeature(Feature):
-    """DNA sequence feature handler"""
+    """DNA序列特征处理器"""
 
     def __init__(self, path):
         """
-        Initialize DNA sequence handler
+        初始化DNA序列处理器
 
         Args:
-            path (str): Path to FASTA file
+            path (str): FASTA文件路径
         """
         self.path = path
         self.fasta = None
@@ -49,7 +49,7 @@ class DNAFeature(Feature):
         self._load(path)
 
     def _load(self, path):
-        """Load FASTA file and validate"""
+        """加载FASTA文件并验证"""
         if not os.path.exists(path):
             raise FileNotFoundError(f"FASTA file not found: {path}")
 
@@ -62,41 +62,41 @@ class DNAFeature(Feature):
 
     def get(self, chrom, start, end, **kwargs):
         """
-        Retrieve DNA sequence for given region (one-hot encoding)
+        获取指定区域的DNA序列(one-hot编码)
 
         Args:
-            chrom (str): Chromosome name
-            start (int): Start position
-            end (int): End position
+            chrom (str): 染色体名称
+            start (int): 起始位置
+            end (int): 结束位置
 
         Returns:
-            np.ndarray: One-hot encoded sequence (L, 5)
+            np.ndarray: one-hot编码序列 (L, 5)
         """
         seq = self.get_seq(chrom, start, end)
         return self.onehot_encode(seq)
 
     def get_seq(self, chrom, start, end):
         """
-        Retrieve DNA sequence for given region (integer encoding)
+        获取指定区域的DNA序列(整数编码)
 
         Args:
-            chrom (str): Chromosome name
-            start (int): Start position
-            end (int): End position
+            chrom (str): 染色体名称
+            start (int): 起始位置
+            end (int): 结束位置
 
         Returns:
-            np.ndarray: Integer-encoded sequence (L,)
+            np.ndarray: 整数编码序列 (L,)
         """
-        # Validate coordinates
+        # 验证坐标有效性
         self._validate_coordinates(chrom, start, end)
 
-        # Fetch and encode sequence
+        # 获取并编码序列
         seq = self.fasta.fetch(chrom, start, end).upper()
         en_dict = {'A': 0, 'C': 1, 'G': 2, 'T': 3, 'N': 4}
         return np.array([en_dict.get(ch, 4) for ch in seq], dtype=np.int8)
 
     def _validate_coordinates(self, chrom, start, end):
-        """Validate genomic coordinates"""
+        """验证基因组坐标有效性"""
         if chrom not in self.chrom_lengths:
             raise ValueError(f"Chromosome {chrom} not found in FASTA")
 
@@ -107,30 +107,30 @@ class DNAFeature(Feature):
             raise ValueError(f"Start ({start}) must be less than end ({end})")
 
     def read_all_chrom(self):
-        """Retrieve list of all chromosome names"""
+        """获取所有染色体名称列表"""
         return self.chroms.copy()
 
     @staticmethod
     def onehot_encode(seq):
         """
-        Convert integer-encoded sequence to one-hot matrix
+        将整数序列编码为one-hot矩阵
 
         Args:
-            seq (np.ndarray): Integer-encoded sequence
+            seq (np.ndarray): 整数编码序列
 
         Returns:
-            np.ndarray: One-hot matrix (L, 5)
+            np.ndarray: one-hot矩阵 (L, 5)
         """
         seq_emb = np.zeros((len(seq), 5), dtype=np.float32)
         seq_emb[np.arange(len(seq)), seq] = 1
         return seq_emb
 
     def __len__(self):
-        """Return number of chromosomes"""
+        """返回染色体数量"""
         return len(self.chroms)
 
     def close(self):
-        """Safely close file resource"""
+        """安全关闭文件资源"""
         if self.fasta is not None:
             self.fasta.close()
             self.fasta = None
@@ -140,15 +140,15 @@ class DNAFeature(Feature):
 
 
 class GenomicFeature(Feature):
-    """Genomic feature handler (supports bigWig files)"""
+    """基因组特征处理器（支持bigWig文件）"""
 
     def __init__(self, path, norm=None):
         """
-        Initialize genomic feature handler
+        初始化基因组特征处理器
 
         Args:
-            path (str): Path to bigWig file
-            norm (str, optional): Normalization method ('log' or None)
+            path (str): bigWig文件路径
+            norm (str, optional): 归一化方法 ('log' 或 None)
         """
         self.path = path
         self.norm = norm
@@ -158,7 +158,7 @@ class GenomicFeature(Feature):
         self._load(path)
 
     def _load(self, path):
-        """Load bigWig file and validate"""
+        """加载bigWig文件并验证"""
         if not os.path.exists(path):
             raise FileNotFoundError(f"BigWig file not found: {path}")
 
@@ -172,33 +172,33 @@ class GenomicFeature(Feature):
 
     def get(self, chr_name, start, end):
         """
-        Retrieve genomic feature values for given region
+        获取指定区域的基因组特征值
 
         Args:
-            chr_name (str): Chromosome name
-            start (int): Start position
-            end (int): End position
+            chr_name (str): 染色体名称
+            start (int): 起始位置
+            end (int): 结束位置
 
         Returns:
-            np.ndarray: Feature value array (L,)
+            np.ndarray: 特征值数组 (L,)
         """
-        # Validate coordinates
+        # 验证坐标有效性
         self._validate_coordinates(chr_name, start, end)
 
-        # Read signal values
+        # 读取信号值
         signals = self.bw_file.values(chr_name, start, end)
         feature = np.array(signals, dtype=np.float32)
 
-        # Handle missing values
+        # 处理缺失值
         feature = np.nan_to_num(feature, nan=0.0)
 
-        # Apply normalization
+        # 应用归一化
         return self._apply_normalization(feature)
 
     def _apply_normalization(self, data):
-        """Apply specified normalization method"""
+        """应用指定的归一化方法"""
         if self.norm == 'log':
-            data = np.log(data + 1)  # log(1+x) is numerically more stable
+            data = np.log(data + 1)  # log(1+x) 数值更稳定
             return data
         elif self.norm is None or self.norm == '':
             return data
@@ -206,7 +206,7 @@ class GenomicFeature(Feature):
             raise ValueError(f'Unsupported normalization type: {self.norm}')
 
     def _validate_coordinates(self, chr_name, start, end):
-        """Validate genomic coordinates"""
+        """验证基因组坐标有效性"""
         if chr_name not in self.chrom_lengths:
             raise ValueError(f"Chromosome {chr_name} not found in bigWig")
 
@@ -217,15 +217,15 @@ class GenomicFeature(Feature):
             raise ValueError(f"Start ({start}) must be less than end ({end})")
 
     def length(self, chr_name):
-        """Retrieve length of specified chromosome"""
+        """获取指定染色体的长度"""
         return self.chrom_lengths.get(chr_name, 0)
 
     def __len__(self):
-        """Return number of chromosomes"""
+        """返回染色体数量"""
         return len(self.chroms)
 
     def close(self):
-        """Safely close file resource"""
+        """安全关闭文件资源"""
         if self.bw_file is not None:
             self.bw_file.close()
             self.bw_file = None
@@ -235,27 +235,27 @@ class GenomicFeature(Feature):
 
 
 class HiCFeature(Feature):
-    """Hi-C contact matrix handler"""
+    """Hi-C接触矩阵处理器"""
 
     def __init__(self, path):
         """
-        Initialize Hi-C handler
+        初始化Hi-C处理器
 
         Args:
-            path (str): Path to NPZ file
+            path (str): NPZ文件路径
         """
         self.path = path
         self.hic = None
         self._load(path)
 
     def _load(self, path):
-        """Load Hi-C data file and validate"""
+        """加载Hi-C数据文件并验证"""
         if not os.path.exists(path):
             raise FileNotFoundError(f"Hi-C file not found: {path}")
         try:
             print(f'Loading Hi-C data: {path}')
             self.hic = dict(np.load(path))
-            # Validate data format
+            # 验证数据格式
             if '0' not in self.hic:
                 raise ValueError("Invalid Hi-C format: missing '0' diagonal")
         except Exception as e:
@@ -263,21 +263,21 @@ class HiCFeature(Feature):
 
     def get(self, start, window=2000000, res=10000):
         """
-        Retrieve Hi-C contact matrix for given region
+        获取指定区域的Hi-C接触矩阵
 
         Args:
-            start (int): Start position
-            window (int): Window size (default 2Mb)
-            res (int): Resolution (default 10kb)
+            start (int): 起始位置
+            window (int): 窗口大小（默认2Mb）
+            res (int): 分辨率（默认10kb）
 
         Returns:
-            np.ndarray: Hi-C contact matrix (bins, bins)
+            np.ndarray: Hi-C接触矩阵 (bins, bins)
         """
         start_bin = int(start / res)
         range_bin = int(window / res)
         end_bin = start_bin + range_bin
 
-        # Validate bounds
+        # 验证边界
         max_bin = len(self.hic['0'])
         if end_bin > max_bin:
             raise IndexError(f"Requested bins {start_bin}-{end_bin} exceed max {max_bin}")
@@ -286,33 +286,33 @@ class HiCFeature(Feature):
 
     def _diag_to_mat(self, start, end):
         """
-        Reconstruct contact matrix from diagonal data
+        从对角线数据重建接触矩阵
 
         Args:
-            start (int): Start bin
-            end (int): End bin
+            start (int): 起始bin
+            end (int): 结束bin
 
         Returns:
-            np.ndarray: Contact matrix (L, L)
+            np.ndarray: 接触矩阵 (L, L)
         """
         square_len = end - start
         diag_load = {}
 
-        # Collect diagonal data
+        # 收集对角线数据
         for diag_i in range(square_len):
-            # Positive diagonal
+            # 正对角线
             diag_key = str(diag_i)
             if diag_key in self.hic:
                 data = self.hic[diag_key][start: start + square_len - diag_i]
                 diag_load[diag_key] = data
 
-            # Negative diagonal
+            # 负对角线
             neg_key = str(-diag_i)
             if neg_key in self.hic:
                 data = self.hic[neg_key][start: start + square_len - diag_i]
                 diag_load[neg_key] = data
 
-        # Reconstruct matrix
+        # 重建矩阵
         matrix = np.zeros((square_len, square_len), dtype=np.float32)
         for i in range(square_len):
             for j in range(square_len):
@@ -327,11 +327,11 @@ class HiCFeature(Feature):
         return matrix
 
     def __len__(self):
-        """Return length of main diagonal"""
+        """返回主对角线长度"""
         return len(self.hic['0']) if '0' in self.hic else 0
 
     def close(self):
-        """Hi-C data is in memory, no need to explicitly close"""
+        """Hi-C数据在内存中，无需显式关闭"""
         pass
 
     def __repr__(self):
@@ -339,9 +339,11 @@ class HiCFeature(Feature):
 
 
 def safe_execute(func, *args, **kwargs):
-    """Safely execute function and handle exceptions"""
+    """安全执行函数并处理异常"""
     try:
         return func(*args, **kwargs)
     except Exception as e:
         print(f"Error in {func.__name__}: {str(e)}")
         return None
+
+

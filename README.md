@@ -2,7 +2,6 @@
 
 IncepFold: A Deep Learning Framework for 3D Genome Prediction in Diverse Plant Species
 
-
 🎉🎉🎉 Our work has been accepted as a **Full Paper** at **DASFAA 2026**!
 
 
@@ -11,9 +10,9 @@ IncepFold: A Deep Learning Framework for 3D Genome Prediction in Diverse Plant S
 ### Data
 
 - Please refer to the paper for data acquisition.
-- Please place the DNA sequence files in a directory such as '/data/genome/cotton`.
-- Please place the H3K4me3 files in a directory such as /data/genomic_features/cotton.
-- Please place the Hi-C files in a directory such as /data/hic/cotton.
+- Please place the DNA sequence files in a directory such as `/data/genome/cotton`.
+- Please place the H3K4me3 files in a directory such as `/data/genomic_features/cotton`.
+- Please place the Hi-C files in a directory such as `/data/hic/cotton`.
 
 ### Running
 

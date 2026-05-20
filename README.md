@@ -11,7 +11,7 @@ IncepFold: A Deep Learning Framework for 3D Genome Prediction in Diverse Plant S
 
 - Please refer to the paper for data acquisition.
 - Please place the DNA sequence files in a directory such as `/data/genome/cotton`.
-- Please place the H3K4me3(ATAC) files in a directory such as `/data/genomic_features/cotton`.
+- Please place the H3K4me3 and ATAC files in a directory such as `/data/genomic_features/cotton`.
 - Please place the Hi-C files in a directory such as `/data/hic/cotton`.
 
 ### Running

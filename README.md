@@ -5,9 +5,6 @@ IncepFold: A Deep Learning Framework for 3D Genome Prediction in Diverse Plant S
 
 🎉🎉🎉 Our work has been accepted as a **Full Paper** at **DASFAA 2026**!
 
-**This repository is an old version, but the core code is consistent.
-Once we have free time, we will update this repository.**
-
 
 ## Usage
 

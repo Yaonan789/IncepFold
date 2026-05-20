@@ -1,6 +1,6 @@
-# IncepFold
+# [IncepFold](https://link.springer.com/chapter/10.1007/978-981-92-0369-7_1)
 
-IncepFold: A Deep Learning Framework for 3D Genome Prediction in Diverse Plant Species
+IncepFold: A Deep Learning Framework for 3D Genome Prediction in Diverse Plant Species 
 
 🎉🎉🎉 Our work has been accepted as a **Full Paper** at **DASFAA 2026**!
 

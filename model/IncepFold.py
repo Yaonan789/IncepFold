@@ -75,13 +75,11 @@ class Encoder(nn.Module):
         self.layers = nn.ModuleList()
         current_channels = base_channels
 
-        # 通道倍增计划：每2层加倍通道数
         channel_multipliers = [1, 1, 2, 2, 4, 4, 8, 8, 16, 16, 32, 32][:num_layers]
 
         for i, mult in enumerate(channel_multipliers):
             out_channels = min(output_dim, base_channels * mult)
 
-            # 添加Inception块
             self.layers.append(
                 Inception1D(current_channels, out_channels)
             )
@@ -172,7 +170,6 @@ class IncepFold(nn.Module):
 
 
 def print_output_shape(module, input, output):
-    # 检查输出是否是元组
     if isinstance(output, tuple):
         print(f"Module: {module.__class__.__name__}, Output is a tuple with {len(output)} elements")
         for i, item in enumerate(output):
@@ -183,8 +180,6 @@ def print_output_shape(module, input, output):
     else:
         print(f"Module: {module.__class__.__name__}, Output Shape: {output.shape}")
 
-
-# 注册钩子
 def register_hooks(model):
     hooks = []
     for name, module in model.named_modules():

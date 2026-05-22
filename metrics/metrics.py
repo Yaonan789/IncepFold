@@ -26,19 +26,15 @@ def insulation_pearson(preds, targets):
 def pearson_correlation(y_pred, y_true):
     scores = []
     for pred, true in zip(y_pred, y_true):
-        # 确保 pred 和 true 是 numpy.ndarray
         pred = np.array(pred)
         true = np.array(true)
 
-        # 展平二维矩阵
         y_pred_flat = pred.flatten()
         y_true_flat = true.flatten()
 
-        # 计算皮尔逊相关系数
         corr, _ = pearsonr(y_pred_flat, y_true_flat)
         scores.append(corr)
 
-        # 返回平均相关系数
     return scores
 
 def observed_vs_expected_with_means(preds, targets, preds_mean, targets_mean):

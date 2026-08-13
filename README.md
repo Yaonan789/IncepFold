@@ -21,8 +21,3 @@ Our experiments were conducted using a single NVIDIA L20 GPU. To reproduce the r
 - Run `main.py` for training.
 - Run `test.py` for evaluation.
 - Run `plot.py` for visualization.
-
-## Finally
-
-Thank you for reading our work. We sincerely hope it can be helpful to you!  
-If you have any questions about the code, feel free to contact us.
